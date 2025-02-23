@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DERZL SMART STATIONARY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -18,10 +18,11 @@
             color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
             text-align: center;
             padding: 3rem;
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            font-family: 'Playfair Display', serif;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
         }
         nav {
             display: flex;
@@ -63,11 +64,16 @@
             padding: 1rem;
             margin-top: 20px;
         }
+        .logo-upload {
+            text-align: center;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        DERZL SMART STATIONARY - Professional & Quality Supplies
+        DERZL SMART STATIONARY <br>
+        <span style="font-size: 1.8rem; font-style: italic; font-weight: 400;">Professional & Quality Supplies</span>
         <p style="font-size: 1.5rem; font-style: italic;">Expect Excellence</p>
     </header>
     <nav>
@@ -76,91 +82,52 @@
         <a href="#services">Services</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#contact">Contact</a>
+        <a href="admin.html">Admin Panel</a>
     </nav>
     <div class="container">
+        <div class="logo-upload">
+            <h3>Upload Your Logo</h3>
+            <input type="file" id="logoUploader" accept="image/*">
+            <br>
+            <img id="logoPreview" src="" alt="Your Logo" style="max-width: 200px; margin-top: 10px; display: none;">
+        </div>
         <section id="shop">
             <h2>Shop</h2>
-            <div class="category">
-                <h3>Stationery Items</h3>
-                <div class="product">
-                    <img src="image/notebook.jpg" alt="Notebook">
-                    <h3>Notebook</h3>
-                    <p>High-quality notebook for all your needs.</p>
-                </div>
-            </div>
-            <div class="category">
-                <h3>Kids & Birthday Supplies</h3>
-                <div class="product">
-                    <img src="images/kids_toys.jpg" alt="Kids Toys">
-                    <h3>Kids Toys</h3>
-                    <p>Fun and educational toys for children.</p>
-                </div>
-                <div class="product">
-                    <img src="images/birthday_stuff.jpg" alt="Birthday Stuff">
-                    <h3>Birthday Stuff</h3>
-                    <p>Everything you need for birthday celebrations.</p>
-                </div>
-                <div class="product">
-                    <img src="images/cake_making.jpg" alt="Cake Making">
-                    <h3>Cake Making</h3>
-                    <p>Delicious and custom cakes for all events.</p>
-                </div>
-            </div>
-            <div class="category">
-                <h3>Phone Accessories</h3>
-                <div class="product">
-                    <img src="images/charger.jpg" alt="Phone Charger">
-                    <h3>Phone Charger</h3>
-                    <p>High-quality and fast-charging phone chargers.</p>
-                </div>
-                <div class="product">
-                    <img src="images/phone_case.jpg" alt="Phone Case">
-                    <h3>Phone Case</h3>
-                    <p>Stylish and protective phone cases.</p>
-                </div>
-            </div>
-        </section>
-        <section id="services">
-            <h2>Our Services</h2>
-            <div class="category">
-                <h3>Graphics Designing</h3>
-                <div class="product">
-                    <img src="logo_design.jpg" alt="Logo Design">
-                    <h3>Logo Making</h3>
-                    <p>Professional logo design services for businesses.</p>
-                </div>
-            </div>
-            <div class="category">
-                <h3>Computer & Printer Maintenance</h3>
-                <div class="product">
-                    <img src="images/computer_maintenance.jpg" alt="Computer Maintenance">
-                    <h3>Computer Maintenance</h3>
-                    <p>Expert computer maintenance and repair services.</p>
-                </div>
-                <div class="product">
-                    <img src="images/printer_errors.jpg" alt="Printer Maintenance">
-                    <h3>Printer Maintenance</h3>
-                    <p>Fixing printer errors and servicing.</p>
-                </div>
-            </div>
-            <div class="category">
-                <h3>Photo Studio</h3>
-                <div class="product">
-                    <img src="images/photo_studio.jpg" alt="Photo Studio">
-                    <h3>Professional Photo Studio</h3>
-                    <p>High-quality photography services.</p>
-                </div>
-                <div class="product">
-                    <img src="images/studio_photos.jpg" alt="Studio Photos">
-                    <h3>Sample Studio Photos</h3>
-                    <p>Beautifully captured photos in our studio.</p>
-                </div>
-            </div>
+            <div id="product-container"></div>
         </section>
     </div>
     <footer>
         <p>&copy; 2025 DERZL SMART STATIONARY. All Rights Reserved.</p>
         <p>Payment Method: Vodacom Lipa Number - 36090061 (DERZL SMART STATIONARY)</p>
     </footer>
+    <script>
+        document.getElementById("logoUploader").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoPreview = document.getElementById("logoPreview");
+                    logoPreview.src = e.target.result;
+                    logoPreview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        fetch('products.json')
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById("product-container");
+                products.forEach(product => {
+                    container.innerHTML += `
+                        <div class="product">
+                            <img src="uploads/${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                        </div>
+                    `;
+                });
+            });
+    </script>
 </body>
 </html>
