@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DERZL SMART STATIONARY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: #333;
+        }
+        header {
+            background: url('office_background.jpg') center/cover no-repeat, #FFA500;
+            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 3rem;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        .notification-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #FFA500;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .category {
+            margin-top: 30px;
+        }
+        .product {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+        .product img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: #1E3A5F;
+            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        DERZL SMART STATIONARY <br>
+        <span style="font-size: 1.8rem; font-style: italic; font-weight: 400;">Professional & Quality Supplies</span>
+        <p style="font-size: 1.5rem; font-style: italic;">We Deliver in Quality</p>
+        <div class="notification-icon" id="notification">🔔</div>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+        <a href="admin.html">Admin Panel</a>
+    </nav>
+    <div class="container">
+        <section id="shop">
+            <h2>Shop</h2>
+            <div id="product-container"></div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2025 DERZL SMART STATIONARY. All Rights Reserved.</p>
+        <p>Payment Method: Vodacom Lipa Number - 36090061 (DERZL SMART STATIONARY)</p>
+    </footer>
+    <script>
+        let notificationCount = 0;
+        document.getElementById("notification").addEventListener("click", function() {
+            alert("You have " + notificationCount + " new product views!");
+            notificationCount = 0;
+        });
+        
+        fetch('products.json')
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById("product-container");
+                products.forEach(product => {
+                    container.innerHTML += `
+                        <div class="product" onclick="incrementNotification()">
+                            <img src="uploads/${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                        </div>
+                    `;
+                });
+            });
+        
+        function incrementNotification() {
+            notificationCount++;
+            document.getElementById("notification").textContent = "🔔 " + notificationCount;
+        }
+    </script>
+</body>
+</html>
