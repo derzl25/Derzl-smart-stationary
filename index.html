@@ -23,6 +23,14 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             font-family: 'Poppins', sans-serif;
             letter-spacing: 2px;
+            position: relative;
+        }
+        .notification-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         nav {
             display: flex;
@@ -64,17 +72,14 @@
             padding: 1rem;
             margin-top: 20px;
         }
-        .logo-upload {
-            text-align: center;
-            margin: 20px 0;
-        }
     </style>
 </head>
 <body>
     <header>
         DERZL SMART STATIONARY <br>
         <span style="font-size: 1.8rem; font-style: italic; font-weight: 400;">Professional & Quality Supplies</span>
-        <p style="font-size: 1.5rem; font-style: italic;">Expect Excellence</p>
+        <p style="font-size: 1.5rem; font-style: italic;">We Deliver in Quality</p>
+        <div class="notification-icon" id="notification">🔔</div>
     </header>
     <nav>
         <a href="#home">Home</a>
@@ -85,12 +90,6 @@
         <a href="admin.html">Admin Panel</a>
     </nav>
     <div class="container">
-        <div class="logo-upload">
-            <h3>Upload Your Logo</h3>
-            <input type="file" id="logoUploader" accept="image/*">
-            <br>
-            <img id="logoPreview" src="" alt="Your Logo" style="max-width: 200px; margin-top: 10px; display: none;">
-        </div>
         <section id="shop">
             <h2>Shop</h2>
             <div id="product-container"></div>
@@ -101,26 +100,19 @@
         <p>Payment Method: Vodacom Lipa Number - 36090061 (DERZL SMART STATIONARY)</p>
     </footer>
     <script>
-        document.getElementById("logoUploader").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const logoPreview = document.getElementById("logoPreview");
-                    logoPreview.src = e.target.result;
-                    logoPreview.style.display = "block";
-                };
-                reader.readAsDataURL(file);
-            }
+        let notificationCount = 0;
+        document.getElementById("notification").addEventListener("click", function() {
+            alert("You have " + notificationCount + " new product views!");
+            notificationCount = 0;
         });
-
+        
         fetch('products.json')
             .then(response => response.json())
             .then(products => {
                 const container = document.getElementById("product-container");
                 products.forEach(product => {
                     container.innerHTML += `
-                        <div class="product">
+                        <div class="product" onclick="incrementNotification()">
                             <img src="uploads/${product.image}" alt="${product.name}">
                             <h3>${product.name}</h3>
                             <p>${product.description}</p>
@@ -128,6 +120,11 @@
                     `;
                 });
             });
+        
+        function incrementNotification() {
+            notificationCount++;
+            document.getElementById("notification").textContent = "🔔 " + notificationCount;
+        }
     </script>
 </body>
 </html>
