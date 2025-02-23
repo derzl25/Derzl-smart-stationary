@@ -15,12 +15,11 @@
         }
         header {
             background: url('office_background.jpg') center/cover no-repeat, #FFA500;
-            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            color: white;
             text-align: center;
             padding: 3rem;
             font-size: 3rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             font-family: 'Poppins', sans-serif;
             letter-spacing: 2px;
             position: relative;
@@ -39,7 +38,7 @@
             padding: 0.5rem;
         }
         nav a {
-            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            color: white;
             text-decoration: none;
             margin: 0 15px;
             font-weight: bold;
@@ -48,9 +47,6 @@
             width: 80%;
             margin: auto;
             padding: 20px;
-        }
-        .category {
-            margin-top: 30px;
         }
         .product {
             background: white;
@@ -67,7 +63,7 @@
         }
         footer {
             background-color: #1E3A5F;
-            color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            color: white;
             text-align: center;
             padding: 1rem;
             margin-top: 20px;
@@ -87,7 +83,7 @@
         <a href="#services">Services</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#contact">Contact</a>
-        <a href="admin.html">Admin Panel</a>
+        <a href="admin.html" id="admin-link">Admin Panel</a>
     </nav>
     <div class="container">
         <section id="shop">
@@ -119,12 +115,23 @@
                         </div>
                     `;
                 });
-            });
+            }).catch(error => console.error("Error loading products:", error));
         
         function incrementNotification() {
             notificationCount++;
             document.getElementById("notification").textContent = "🔔 " + notificationCount;
         }
+        
+        document.getElementById("admin-link").addEventListener("click", function(event) {
+            event.preventDefault();
+            const username = prompt("Enter admin username:");
+            const password = prompt("Enter admin password:");
+            if (username === "derick" && password === "kaijage2000@#") {
+                window.location.href = "admin.html";
+            } else {
+                alert("Incorrect username or password!");
+            }
+        });
     </script>
 </body>
 </html>
